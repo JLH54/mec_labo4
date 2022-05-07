@@ -53,9 +53,15 @@
     <UnityVersion>2020.3.27f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\11.6.1\SpawnManager.cs" />
     <Compile Include="Assets\Scripts\11.6.1\EnnemiMovement.cs" />
+    <Compile Include="Assets\Scripts\11.6.1\SpawnManager.cs" />
+    <Compile Include="Assets\Scripts\11.6.5\PlayerLogic.cs" />
+    <Compile Include="Assets\Scripts\11.6.3\ColorChange.cs" />
+    <Compile Include="Assets\Scripts\11.6.3\Ui.cs" />
+    <Compile Include="Assets\Scripts\11.6.4\Shoot.cs" />
+    <Compile Include="Assets\Scripts\11.6.4\SpawnManagerPlusCiv.cs" />
     <Compile Include="Assets\Scripts\11.6.1\PlayerMovement.cs" />
+    <Compile Include="Assets\Scripts\11.6.5\EnnemiBehavior.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

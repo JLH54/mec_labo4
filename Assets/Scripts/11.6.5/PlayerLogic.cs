@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class PlayerLogic : MonoBehaviour
 {
@@ -9,6 +10,15 @@ public class PlayerLogic : MonoBehaviour
 
     [SerializeField]
     private float m_speed;
+
+    [SerializeField]
+    private NavMeshAgent m_agent;
+
+    [SerializeField]
+    private float m_rayonX;
+
+    [SerializeField]
+    private int m_damage;
 
     private Ray m_LasRay;
 
@@ -42,17 +52,30 @@ public class PlayerLogic : MonoBehaviour
             RaycastHit hitInfo;
             if (Physics.Raycast(m_LasRay, out hitInfo))
             {
-                //transform.position = hitInfo.point;
-                pointDepart = transform.position;
-                pointArriver = hitInfo.point + new Vector3(0, GetComponent<Collider>().bounds.size.y / 2, 0);
-                m_DistanceToTravel = Vector3.Distance(pointDepart, pointArriver);
+                m_agent.SetDestination(hitInfo.point);
                 timer = 0;
                 m_TimeOnClick = Time.time;
             }
         }
+
+        Collider[] hitColliders = Physics.OverlapSphere(m_agent.transform.position, m_rayonX);
+        foreach(var hitCollider in hitColliders)
+        {
+            if(hitCollider.CompareTag("Ennemi"))
+            {
+                m_agent.isStopped = true;
+                EnnemiBehavior ennemi = hitCollider.gameObject.GetComponent<EnnemiBehavior>();
+                ennemi.takeHit(m_damage);
+                if(ennemi.returnHealth() <= 0)
+                {
+                    m_agent.isStopped = false;
+                }
+            }
+        }
+
         timer += Time.deltaTime;
         float elapsedTime = Time.time - m_TimeOnClick;
-        transform.position = Vector3.Lerp(pointDepart, pointArriver, elapsedTime * m_speed / m_DistanceToTravel);
+
         Debug.DrawRay(m_LasRay.origin, m_LasRay.direction * 20, Color.red);
     }
 }
